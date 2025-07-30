@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WebYa - Tu web lista en 24 horas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --yellow: #FFD700;
+      --yellow-bright: #FFED4E;
+      --yellow-dark: #F59E0B;
+      --black: #000000;
+      --gray-900: #111111;
+      --gray-800: #1a1a1a;
+      --gray-700: #2a2a2a;
+      --gray-100: #f8f8f8;
+      --white: #ffffff;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      color: var(--black);
+      background: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--black);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, transparent 49%, var(--yellow) 49%, var(--yellow) 51%, transparent 51%),
+                  linear-gradient(-45deg, transparent 49%, var(--yellow) 49%, var(--yellow) 51%, transparent 51%);
+      background-size: 20px 20px;
+      opacity: 0.03;
+      animation: movePattern 20s linear infinite;
+    }
+
+    @keyframes movePattern {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(20px, 20px); }
+    }
+
+    .hero-content {
+      text-align: center;
+      color: var(--white);
+      z-index: 2;
+      max-width: 800px;
+      padding: 2rem;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      letter-spacing: -2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .logo-bolt {
+      width: 1.2em;
+      height: 1.2em;
+      background: var(--yellow);
+      clip-path: polygon(20% 0%, 60% 0%, 35% 50%, 80% 50%, 40% 100%, 0% 100%, 25% 50%, 0% 50%);
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .hero .highlight {
+      color: var(--yellow);
+      position: relative;
+    }
+
+    .hero p {
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      margin-bottom: 3rem;
+      font-weight: 300;
+      opacity: 0.9;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.5;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: var(--yellow);
+      color: var(--black);
+      padding: 1.2rem 3rem;
+      border: none;
+      border-radius: 0;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      transition: left 0.6s;
+    }
+
+    .cta-button:hover::before {
+      left: 100%;
+    }
+
+    .cta-button:hover {
+      background: var(--yellow-bright);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Sections */
+    .section {
+      padding: 6rem 0;
+      position: relative;
+    }
+
+    .section-dark {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: clamp(2rem, 5vw, 2.8rem);
+      font-weight: 700;
+      margin-bottom: 4rem;
+      letter-spacing: -1px;
+      position: relative;
+      line-height: 1.2;
+    }
+
+    .section-title .highlight {
+      color: var(--yellow);
+    }
+
+    /* Features */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 3rem;
+      margin-top: 4rem;
+    }
+
+    .feature-card {
+      background: var(--white);
+      padding: 3rem;
+      border: 2px solid var(--black);
+      text-align: left;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: var(--yellow);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 20px 20px 0 var(--yellow);
+    }
+
+    .section-dark .feature-card {
+      background: var(--gray-800);
+      color: var(--white);
+      border-color: var(--gray-700);
+    }
+
+    .section-dark .feature-card:hover {
+      box-shadow: 20px 20px 0 var(--yellow);
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+
+    .feature-card h3 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      letter-spacing: -0.5px;
+    }
+
+    .feature-card p {
+      font-size: 1rem;
+      opacity: 0.8;
+      line-height: 1.6;
+    }
+
+    /* Timeline */
+    .timeline {
+      position: relative;
+      max-width: 800px;
+      margin: 4rem auto;
+    }
+
+    .timeline-item {
+      display: flex;
+      align-items: center;
+      margin: 3rem 0;
+      position: relative;
+    }
+
+    .timeline-number {
+      width: 60px;
+      height: 60px;
+      background: var(--yellow);
+      color: var(--black);
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.5rem;
+      margin-right: 2rem;
+      flex-shrink: 0;
+    }
+
+    .timeline-content {
+      background: var(--gray-800);
+      color: var(--white);
+      padding: 2rem;
+      border: 2px solid var(--yellow);
+      flex: 1;
+      position: relative;
+    }
+
+    .timeline-content h3 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--yellow);
+    }
+
+    .timeline-content p {
+      margin: 0;
+      opacity: 0.9;
+    }
+
+    /* Plans */
+    .plans {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 3rem;
+      margin-top: 4rem;
+    }
+
+    .plan {
+      background: var(--white);
+      border: 3px solid var(--black);
+      padding: 3rem;
+      text-align: center;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .plan:hover {
+      transform: translateY(-8px);
+      box-shadow: 15px 15px 0 var(--yellow);
+    }
+
+    .plan.featured {
+      background: var(--black);
+      color: var(--white);
+      border-color: var(--yellow);
+    }
+
+    .plan.featured::before {
+      content: 'MÁS POPULAR';
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--yellow);
+      color: var(--black);
+      padding: 0.5rem 2rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .plan h3 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      letter-spacing: -0.5px;
+    }
+
+    .price {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      margin: 1.5rem 0;
+      color: var(--black);
+      line-height: 1;
+    }
+
+    .plan.featured .price {
+      color: var(--yellow);
+    }
+
+    .plan-features {
+      list-style: none;
+      margin: 2rem 0;
+      text-align: left;
+    }
+
+    .plan-features li {
+      padding: 0.8rem 0;
+      position: relative;
+      padding-left: 2rem;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .plan.featured .plan-features li {
+      border-bottom-color: rgba(255,255,255,0.1);
+    }
+
+    .plan-features li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--yellow);
+      font-weight: 700;
+    }
+
+    .plan-button {
+      width: 100%;
+      padding: 1.2rem;
+      border: 2px solid var(--black);
+      background: var(--white);
+      color: var(--black);
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .plan.featured .plan-button {
+      background: var(--yellow);
+      border-color: var(--yellow);
+      color: var(--black);
+    }
+
+    .plan-button:hover {
+      background: var(--yellow);
+      color: var(--black);
+      transform: translateY(-2px);
+    }
+
+    /* Contact Section */
+    .contact {
+      background: var(--gray-900);
+      color: var(--white);
+    }
+
+    .contact .section-title {
+      color: var(--white);
+    }
+
+    .contact .section-title .highlight {
+      color: var(--yellow);
+    }
+
+    .contact p {
+      color: var(--white);
+    }
+
+    .contact-buttons {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 3rem 0;
+    }
+
+    .btn-primary {
+      background: var(--yellow);
+      color: var(--black);
+      border: 2px solid var(--yellow);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--yellow);
+      border: 2px solid var(--yellow);
+    }
+
+    .btn-secondary:hover {
+      background: var(--yellow);
+      color: var(--black);
+    }
+
+    .contact-info {
+      background: var(--gray-800);
+      padding: 2rem;
+      border-left: 4px solid var(--yellow);
+      margin-top: 2rem;
+    }
+
+    .contact-info p {
+      margin: 0;
+      opacity: 0.9;
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--black);
+      color: var(--white);
+      text-align: center;
+      padding: 3rem 2rem;
+      border-top: 2px solid var(--yellow);
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.2rem;
+        flex-direction: row;
+        gap: 0.3rem;
+      }
+      
+      .logo-bolt {
+        width: 0.9em;
+        height: 0.9em;
+      }
+      
+      .hero p {
+        font-size: 1rem;
+        line-height: 1.4;
+        padding: 0 1rem;
+      }
+      
+      .section {
+        padding: 3rem 0;
+      }
+      
+      .container {
+        padding: 0 1rem;
+      }
+      
+      .timeline-item {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .timeline-number {
+        margin-right: 0;
+        margin-bottom: 1rem;
+      }
+
+      .contact-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .contact-buttons a {
+        width: 100%;
+        max-width: 300px;
+      }
+
+      .cta-button {
+        padding: 1rem 2rem;
+        font-size: 1rem;
+      }
+
+      .feature-card, .plan {
+        padding: 2rem;
+      }
+
+      .plans {
+        gap: 2rem;
+      }
+
+      .features {
+        gap: 2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero {
+        padding: 1rem;
+      }
+
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+
+      .hero p {
+        font-size: 0.9rem;
+        margin-bottom: 2rem;
+      }
+
+      .section-title {
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
+      }
+
+      .feature-card, .plan {
+        padding: 1.5rem;
+      }
+    }
+
+    /* Animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Special animation for timeline items */
+    .timeline-item.fade-in {
+      transform: translateY(50px) scale(0.95);
+    }
+
+    .timeline-item.fade-in.visible {
+      transform: translateY(0) scale(1);
+    }
+
+    /* Minimal loading animation */
+    .loading-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--yellow);
+      transform: scaleX(0);
+      transform-origin: left;
+      animation: loadingBar 2s ease-out;
+      z-index: 1000;
+    }
+
+    @keyframes loadingBar {
+      0% { transform: scaleX(0); }
+      50% { transform: scaleX(0.8); }
+      100% { transform: scaleX(1); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="loading-bar"></div>
+  
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1><span class="logo-bolt"></span><span class="highlight">WebYa</span></h1>
+      <p>Tu página web profesional lista en menos de 24 horas.<br>Minimalista. Eficiente. Potenciada con IA.</p>
+      <a href="https://forms.gle/nWiECwvr6AY1jh9E6" class="cta-button" target="_blank">Empezar Ahora</a>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="section" id="que-incluye">
+    <div class="container">
+      <h2 class="section-title fade-in">¿Qué <span class="highlight">incluye</span>?</h2>
+      <div class="features">
+        <div class="feature-card fade-in">
+          <span class="feature-icon">⚡</span>
+          <h3>Entrega en 24h</h3>
+          <p>Tu web estará lista y funcionando en menos de 24 horas. Sin demoras, sin excusas.</p>
+        </div>
+        <div class="feature-card fade-in">
+          <span class="feature-icon">🤖</span>
+          <h3>Potenciada con IA</h3>
+          <p>Utilizamos inteligencia artificial para optimizar contenido y crear experiencias más efectivas.</p>
+        </div>
+        <div class="feature-card fade-in">
+          <span class="feature-icon">📱</span>
+          <h3>100% Responsive</h3>
+          <p>Diseño que se adapta perfectamente a móviles, tablets y escritorio.</p>
+        </div>
+        <div class="feature-card fade-in">
+          <span class="feature-icon">🌐</span>
+          <h3>Dominio + Hosting</h3>
+          <p>Incluye dominio y hosting por un año completo. Todo listo para usar.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process Section -->
+  <section class="section section-dark">
+    <div class="container">
+      <h2 class="section-title fade-in">¿Cómo <span class="highlight">funciona</span>?</h2>
+      <div class="timeline">
+        <div class="timeline-item fade-in">
+          <div class="timeline-number">1</div>
+          <div class="timeline-content">
+            <h3>Completás el formulario</h3>
+            <p>Llená nuestro formulario con los detalles de tu proyecto, tipo de negocio y preferencias de diseño.</p>
+          </div>
+        </div>
+        <div class="timeline-item fade-in">
+          <div class="timeline-number">2</div>
+          <div class="timeline-content">
+            <h3>Confirmás tu pedido</h3>
+            <p>Te contacto para confirmar los detalles y procesar el pago de tu plan elegido.</p>
+          </div>
+        </div>
+        <div class="timeline-item fade-in">
+          <div class="timeline-number">3</div>
+          <div class="timeline-content">
+            <h3>Desarrollo tu web con IA</h3>
+            <p>Creo tu página web potenciada con IA y las mejores herramientas, adaptada a tus necesidades específicas.</p>
+          </div>
+        </div>
+        <div class="timeline-item fade-in">
+          <div class="timeline-number">4</div>
+          <div class="timeline-content">
+            <h3>¡Recibís tu web lista!</h3>
+            <p>En menos de 24hs te envío el link de tu web funcionando con dominio y hosting activados.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Plans Section -->
+  <section class="section" id="planes">
+    <div class="container">
+      <h2 class="section-title fade-in">Elegí tu <span class="highlight">plan</span></h2>
+      <div class="plans">
+        <div class="plan fade-in">
+          <h3>Plan Básico</h3>
+          <div class="price">$30K<span style="font-size: 1rem;"> ARS</span></div>
+          <p style="margin-bottom: 2rem;"><strong>25 USD</strong></p>
+          <ul class="plan-features">
+            <li>Página web profesional</li>
+            <li>Diseño responsive</li>
+            <li>Dominio gratuito incluido</li>
+            <li>Hosting incluido por 1 año</li>
+            <li>Soporte por email</li>
+          </ul>
+          <a href="https://forms.gle/nWiECwvr6AY1jh9E6" class="plan-button" target="_blank">Elegir Básico</a>
+        </div>
+        
+        <div class="plan featured fade-in">
+          <h3>Plan Pro</h3>
+          <div class="price">$45K<span style="font-size: 1rem;"> ARS</span></div>
+          <p style="margin-bottom: 2rem;"><strong>40 USD</strong></p>
+          <ul class="plan-features">
+            <li>Todo del Plan Básico</li>
+            <li>Dominio personalizado (.com, .net)</li>
+            <li>Optimización SEO completa</li>
+            <li>Formulario de contacto</li>
+            <li>Google Analytics incluido</li>
+            <li>Soporte prioritario</li>
+          </ul>
+          <a href="https://forms.gle/nWiECwvr6AY1jh9E6" class="plan-button" target="_blank">Elegir Pro</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="section contact" id="contacto">
+    <div class="container">
+      <h2 class="section-title fade-in">¡Empezá tu <span class="highlight">proyecto</span> ahora!</h2>
+      <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+        <p style="font-size: 1.3rem; margin-bottom: 2rem; opacity: 0.9; color: var(--white);">
+          Completá el formulario con los detalles de tu proyecto.<br>Te contacto por email en pocas horas para confirmar y empezar.
+        </p>
+        <div class="contact-buttons">
+          <a href="https://forms.gle/nWiECwvr6AY1jh9E6" class="cta-button btn-primary" target="_blank">
+            Completar Formulario
+          </a>
+          <a href="mailto:webyapages@gmail.com?subject=Consulta sobre WebYa&body=Hola Gabriel,%0D%0A%0D%0ATengo una consulta sobre tu servicio de páginas web:%0D%0A%0D%0A" class="cta-button btn-secondary">
+            Consultar por Email
+          </a>
+        </div>
+        <div class="contact-info">
+          <p style="color: var(--white);">
+            <strong>¿Tenés dudas?</strong> Escribime a <strong style="color: var(--yellow);">webyapages@gmail.com</strong> antes de completar el formulario. Te ayudo a elegir el plan perfecto para tu proyecto.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p><strong>⚡ WebYa</strong> - Creado por Gabriel Nogarotto | Tu web lista en 24 horas</p>
+  </footer>
+
+  <script>
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Fade in animation on scroll
+    const observerOptions = {
+      threshold: 0.15,
+      rootMargin: '0px 0px -30px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          // Add staggered delay for timeline items
+          if (entry.target.classList.contains('timeline-item')) {
+            const timelineIndex = Array.from(document.querySelectorAll('.timeline-item')).indexOf(entry.target);
+            setTimeout(() => {
+              entry.target.classList.add('visible');
+            }, timelineIndex * 200);
+          } else {
+            // Regular fade-in for other elements
+            setTimeout(() => {
+              entry.target.classList.add('visible');
+            }, index * 100);
+          }
+        }
+      });
+    }, observerOptions);
+
+    // Observe all fade-in elements
+    document.querySelectorAll('.fade-in').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Remove loading bar after page load
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const loadingBar = document.querySelector('.loading-bar');
+        if (loadingBar) {
+          loadingBar.remove();
+        }
+      }, 2000);
+    });
+  </script>
+</body>
+</html>
